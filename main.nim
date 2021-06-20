@@ -47,14 +47,15 @@ proc drawFloor() =
         else: fgWhite
       tb.write(x, y, resetStyle, color, $c)
 
-proc gameOver =
-  var s = "Caught by Monster! GAME OVER!"
-  tb.drawRect(0, 0, s.len + 2, 2)
-  tb.write(2, 1, fgRed, s)
+proc showDialog(x, y: int, msg: string) =
+  tb.drawRect(x, y+1, x + msg.len + 2, y+2)
+  tb.write(x+2, y+3, fgRed, s)
   tb.display()
+
+proc gameOver =
+  showDialog("Caught by Monster! GAME OVER!")
   sleep(2000)
   exitProc()
-
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
