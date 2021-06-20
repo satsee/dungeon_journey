@@ -1,6 +1,6 @@
 {.experimental: "codeReordering".}
 
-import os, illwill, sugar
+import os, illwill, sugar, random
 
 
 var tb = newTerminalBuffer(terminalWidth(), terminalHeight())
@@ -20,8 +20,8 @@ proc init() =
 var y = 5
 var x = 5
 
-var my = 10
-var mx = 20
+var my = 2
+var mx = 26
 
 var floor = @[
   "############################         ###########################",
@@ -59,8 +59,8 @@ var movableFloor = [' ', '@', '.']
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
-  if dx > 0: dx = 1
-  if dx < 0: dx = -1
+  if dx > 0: dx = [0,1].sample
+  if dx < 0: dx = [0,-1].sample
 
   var dy = y - my
   if dy > 0: dy = 1
