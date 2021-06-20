@@ -25,16 +25,16 @@ var mx = 20
 
 var floor = @[
   "############################         ###########################",
-  "#                    6     #         #                         #",
-  "# # # #   #   # #          #         #",
-  "#       ###     #      6   #         #",
-  "# # #   #   # # #          ###########",
-  "# 0 0 0 0   0 0 0                      ",
-  "#  )( )( )( )( )( )        ###########",
-  "#  )(       )(    )        #         #",
-  "#  )(  )( )(    )(  ##     #         #",
-  "#                          #         #",
-  "############################",
+  "#                          #         #                         #",
+  "#################          #         #    #################    #",
+  "# ->->->->->->  #          #         #    #               #    #",
+  "#################          ###########    #          ::   #    #",
+  "#  . . . . . . . . . .                    #               #    #",
+  "#  .)()()()()()()()().     ###########    #               #    #",
+  "#  .)()()()()()()()().     #         #    #        ?      #    #",
+  "#  .)()()()()()()()().     #         #    #############  ##    #",
+  "#                          #         #                         #",
+  "############################         ###########################",
 ]
 
 init()
@@ -55,6 +55,7 @@ proc gameOver =
   sleep(2000)
   exitProc()
 
+var movableFloor = [' ', '@', '.']
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
@@ -65,14 +66,15 @@ proc moveMonster(x, y: int; mx, my: var int) =
   if dy > 0: dy = 1
   if dy < 0: dy = -1
 
-  if floor[my+dy][mx+dx] in [' ', 'Y']:
+
+  if floor[my+dy][mx+dx] in movableFloor:
     mx += dx
     my += dy
 
-  elif floor[my+dy][mx] in [' ', 'Y']:
+  elif floor[my+dy][mx] in movableFloor:
     my += dy
 
-  elif floor[my][mx+dx] in [' ', 'Y']:
+  elif floor[my][mx+dx] in movableFloor:
     mx += dx
 
 while true:
@@ -101,7 +103,7 @@ while true:
   if key == Key.Space:
     floor[y][x] = '#'
 
-  if floor[ny][nx] == ' ':
+  if floor[ny][nx] in movableFloor:
     x = nx
     y = ny
     moveMonster(x, y, mx, my)
@@ -110,7 +112,7 @@ while true:
     gameOver()
 
   drawFloor()
-  tb.write(x, y, fgCyan, "Y")
+  tb.write(x, y, fgCyan, "@")
   tb.write(mx, my, fgRed, "%")
 
   tb.display()
