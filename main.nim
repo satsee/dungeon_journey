@@ -23,7 +23,7 @@ var x = 5
 var my = 2
 var mx = 26
 
-var floor = @[
+var floor1 = @[
   "############################         ###########################",
   "#                          #         #                         #",
   "#################          #         #    #################    #",
@@ -65,10 +65,14 @@ var floor3 = @[
   "################################################################",
 ]
 
+var floors = @[floor1, floor2, floor3]
+
+var story = 0
+
 init()
 
 proc drawFloor() =
-  for y, line in floor:
+  for y, line in floors[story]:
     for x, c in line:
       var color = case c:
         of '#': fgMagenta
@@ -76,12 +80,12 @@ proc drawFloor() =
       tb.write(x, y, resetStyle, color, $c)
 
 proc showDialog(x, y: int, msg: string) =
-  tb.drawRect(x, y+1, x + msg.len + 2, y+2)
-  tb.write(x+2, y+3, fgRed, s)
+  tb.drawRect(x, y, x + msg.len + 4, y+3)
+  tb.write(x+3, y+1, fgRed, msg)
   tb.display()
 
 proc gameOver =
-  showDialog("Caught by Monster! GAME OVER!")
+  showDialog(3, 3, "Caught by Monster! GAME OVER!")
   sleep(2000)
   exitProc()
 
@@ -96,6 +100,7 @@ proc moveMonster(x, y: int; mx, my: var int) =
   if dy > 0: dy = 1
   if dy < 0: dy = -1
 
+  let floor = floors[story]
 
   if floor[my+dy][mx+dx] in movableFloor:
     mx += dx
@@ -129,6 +134,8 @@ while true:
     ny = y - 1
   if key == Key.Down:
     ny = y + 1
+
+  var floor = floors[story]
 
   if key == Key.Space:
     floor[y][x] = '#'
