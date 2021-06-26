@@ -93,23 +93,21 @@ var movableFloor = [' ', '@', '.']
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
-  if dx > 0: dx = [0, 1].sample
-  if dx < 0: dx = [0, -1].sample
+  if dx > 0: dx = [0, 1, 1].sample
+  if dx < 0: dx = [0, -1, -1].sample
 
   var dy = y - my
   if dy > 0: dy = 1
   if dy < 0: dy = -1
 
-  let floor = floors[story]
-
-  if floor[my+dy][mx+dx] in movableFloor:
+  if floors[story][my+dy][mx+dx] in movableFloor:
     mx += dx
     my += dy
 
-  elif floor[my+dy][mx] in movableFloor:
+  elif floors[story][my+dy][mx] in movableFloor:
     my += dy
 
-  elif floor[my][mx+dx] in movableFloor:
+  elif floors[story][my][mx+dx] in movableFloor:
     mx += dx
 
 while true:
@@ -135,12 +133,10 @@ while true:
   if key == Key.Down:
     ny = y + 1
 
-  var floor = floors[story]
-
   if key == Key.Space:
-    floor[y][x] = '#'
+    floors[story][y][x] = '#'
 
-  if floor[ny][nx] in movableFloor:
+  if floors[story][ny][nx] in movableFloor:
     x = nx
     y = ny
     moveMonster(x, y, mx, my)
