@@ -69,7 +69,9 @@ var floors = @[floor1, floor2, floor3]
 
 var story = 0
 
+randomize()
 init()
+
 
 proc drawFloor() =
   for y, line in floors[story]:
@@ -93,20 +95,24 @@ var movableFloor = [' ', '@', '.']
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
-  if dx > 0: dx = [0, 1, 1].sample
-  if dx < 0: dx = [0, -1, -1].sample
+  if dx > 0: dx = 1
+  if dx < 0: dx = -1
 
   var dy = y - my
   if dy > 0: dy = 1
   if dy < 0: dy = -1
 
-  if floors[story][my+dy][mx+dx] in movableFloor:
+  # diagonal move
+  var canTresspassWall: bool = rand(100) < 30
+  if canTresspassWall or floors[story][my+dy][mx+dx] in movableFloor:
     mx += dx
     my += dy
 
+  # vertical move
   elif floors[story][my+dy][mx] in movableFloor:
     my += dy
 
+  # horizontal move
   elif floors[story][my][mx+dx] in movableFloor:
     mx += dx
 
