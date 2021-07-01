@@ -1,6 +1,6 @@
 {.experimental: "codeReordering".}
 
-import os, illwill, sugar, random
+import os, illwill, sugar, random, strformat
 
 
 var tb = newTerminalBuffer(terminalWidth(), terminalHeight())
@@ -26,11 +26,11 @@ var mx = 26
 var floor1 = @[
   "############################         ###########################",
   "#                          #         #                         #",
-  "#################          #         #    #################    #",
-  "# ->->->->->->  #          #         #    #               #    #",
-  "#################          ###########    #          ::   #    #",
-  "#  . . . . . . . . . .                    #               #    #",
-  "#  .)()()()()()()()().     ###########    #               #    #",
+  "#####  ##########          #         #    #################    #",
+  "#               #          #         #    #               #    #",
+  "#  ########   #####        ###########    #          ::   #    #",
+  "#  . . . . . . .#. . .                    #               #    #",
+  "#  .)()()()()()(#()().     ###########    #               #    #",
   "#  .)()()()()()()()().     #         #    #        ?      #    #",
   "#  .)()()()()()()()().     #         #    #############  ##    #",
   "#                          #         #                         #",
@@ -87,15 +87,23 @@ init()
 
 
 proc drawFloor() =
+  var xTop = 0
+  var yTop = 2
+
+  tb.write(20, 0, resetStyle, fmt"<<< FLOOR {story} >>>")
   for y, line in floors[story]:
     for x, c in line:
       var color = case c:
         of '#': fgYellow
         else: fgWhite
-      tb.write(x, y, resetStyle, color, $c)
+      tb.write(x + xTop, y+yTop, resetStyle, color, $c)
+
+  tb.write(x + xTop, y + yTop, fgCyan, "@")
+  tb.write(mx + xTop, my + yTop, fgRed, "%")
+
 
 proc showDialog(x, y: int, msg: string) =
-  tb.drawRect(x, y, x + msg.len + 2, y+2)
+  tb.drawRect(x, y, x + msg.len + 1, y+2)
   tb.write(x+1, y+1, fgRed, msg)
   tb.display()
 
@@ -170,8 +178,6 @@ while true:
     gameOver()
 
   drawFloor()
-  tb.write(x, y, fgCyan, "@")
-  tb.write(mx, my, fgRed, "%")
 
   tb.display()
 
