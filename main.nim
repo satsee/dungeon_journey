@@ -142,6 +142,10 @@ while true:
   if key == Key.Space:
     floors[story][y][x] = '#'
 
+  if floors[story][ny][nx] == ':':
+    story += 1
+    continue
+
   if floors[story][ny][nx] in movableFloor:
     x = nx
     y = ny
