@@ -144,13 +144,13 @@ while true:
     ny = y
 
   if key == Key.Right:
-    nx = x + 2
+    nx = x + 1
   if key == Key.Left:
-    nx = x - 2
+    nx = x - 1
   if key == Key.Up:
-    ny = y - 2
+    ny = y - 1
   if key == Key.Down:
-    ny = y + 2
+    ny = y + 1
 
   if key == Key.Space:
     floors[story][y][x] = 'X'
