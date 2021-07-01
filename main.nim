@@ -17,6 +17,9 @@ proc init() =
   drawFloor()
   tb.display()
 
+let xTop = 0
+let yTop = 2
+
 var y = 5
 var x = 5
 
@@ -101,9 +104,6 @@ init()
 
 
 proc drawFloor() =
-  var xTop = 0
-  var yTop = 2
-
   tb.write(20, 0, resetStyle, fmt"<<< FLOOR {story} >>>")
   for y, line in floors[story]:
     for x, c in line:
@@ -139,6 +139,7 @@ proc moveMonster(x, y: int; mx, my: var int) =
 
   # diagonal move
   var canTresspassWall: bool = rand(100) < 2
+
   if canTresspassWall or floors[story][my+dy][mx+dx] in movableFloor:
     mx += dx
     my += dy
@@ -159,7 +160,7 @@ while true:
     of Key.Escape, Key.Q: exitProc()
     else: discard
 
-  tb.write(x, y, " ")
+  # tb.write(x, y, " ")
 
   var
     nx = x
