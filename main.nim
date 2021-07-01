@@ -95,12 +95,12 @@ proc drawFloor() =
       tb.write(x, y, resetStyle, color, $c)
 
 proc showDialog(x, y: int, msg: string) =
-  tb.drawRect(x, y, x + msg.len + 4, y+3)
-  tb.write(x+3, y+1, fgRed, msg)
+  tb.drawRect(x, y, x + msg.len + 2, y+2)
+  tb.write(x+1, y+1, fgRed, msg)
   tb.display()
 
 proc gameOver =
-  showDialog(3, 3, "Caught by Monster! GAME OVER!")
+  showDialog(3, 3, "  Caught by Monster! GAME OVER!  ")
   sleep(2000)
   exitProc()
 
@@ -156,6 +156,10 @@ while true:
     floors[story][y][x] = 'X'
 
   # floor boundary check
+
+  if floors[story][ny][nx] == ':':
+    story += 1
+    continue
 
   if floors[story][ny][nx] in movableFloor:
     x = nx
