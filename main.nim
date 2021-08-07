@@ -85,7 +85,7 @@ var floor4 = @[
 var floor5 = @[
   "############################     ###############################",
   "#      XXXXXXXXXXX         #     #                             #",
-  "#                          #     #      ::                #",
+  "#                          #     #      ::                     #",
   "#X X X XXXXXXX             #     #                        #    #",
   "#       X                  #######                        #    #",
   "#      X                                                  #    #",
@@ -94,6 +94,22 @@ var floor5 = @[
   "#       ##############################                   ##    #",
   "#           ::                                                 #",
   "################################################################",
+]
+
+var floor6 = @[
+  "############################     ###############################",
+  "#      XXXXXXXXXXX         #     #                             #",
+  "#                          #     #      ::                     #",
+  "#XXXXXXXXXXXXX             #     #                        #    #",
+  "#                          #######                        #    #",
+  "#XX XXXXXXXXXX                                            #    #",
+  "#       X                                                 #    #",
+  "#      XX                  ###########                    #    #",
+  "#       ##############################                   ##    #",
+  "#           ::                                                 #",
+  "################################################################",
+]
+
 ]
 var floors = @[floor1, floor2, floor3]
 
@@ -104,7 +120,7 @@ init()
 
 
 proc drawFloor() =
-  tb.write(20, 0, resetStyle, fmt"<<< FLOOR {story} >>>")
+  tb.write(20, 0, resetStyle, fmt"<<< FLOOR {story + 1} >>>")
   for y, line in floors[story]:
     for x, c in line:
       var color = case c:
@@ -126,7 +142,7 @@ proc gameOver =
   sleep(2000)
   exitProc()
 
-var movableFloor = [' ', '@', '.']
+var movableFloor = [' ', '@', '.', '(', ')']
 
 proc moveMonster(x, y: int; mx, my: var int) =
   var dx = x - mx
@@ -138,7 +154,7 @@ proc moveMonster(x, y: int; mx, my: var int) =
   if dy < 0: dy = -1
 
   # diagonal move
-  var canTresspassWall: bool = rand(100) < 2
+  var canTresspassWall: bool = rand(100) < 1
 
   if canTresspassWall or floors[story][my+dy][mx+dx] in movableFloor:
     mx += dx
